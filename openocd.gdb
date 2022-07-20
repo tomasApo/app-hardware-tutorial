@@ -10,16 +10,13 @@ set backtrace limit 32
 break DefaultHandler
 break HardFault
 break rust_begin_unwind
-# # run the next few lines so the panic message is printed immediately
-# # the number needs to be adjusted for your panic handler
-# commands $bpnum
-# next 4
-# end
 
 # *try* to stop at the user entry point (it might be gone due to inlining)
 break main
 
 monitor arm semihosting enable
+
+load
 
 # # send captured ITM to the file itm.fifo
 # # (the microcontroller SWO pin must be connected to the programmer SWO pin)
@@ -34,7 +31,6 @@ monitor arm semihosting enable
 # # enable ITM port 0
 # monitor itm port 0 on
 
-load
 
 # start the process but immediately halt the processor
 stepi
